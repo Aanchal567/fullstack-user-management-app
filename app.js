@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const mongoose = require('mongoose');
 
 // Model import
 const userModel = require('./models/user');
@@ -13,6 +14,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 🔥 MongoDB Connection (IMPORTANT FIX)
+const MONGO_URI = "mongodb+srv://aanchal:123@cluster0.deaqzkf.mongodb.net/testapp1?retryWrites=true&w=majority";
+
+mongoose.connect(MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB Connected");
+  })
+  .catch((err) => {
+    console.log("❌ Mongo Error:", err);
+  });
+
 // Home route
 app.get('/', (req, res) => {
   res.render("index");
@@ -24,26 +36,32 @@ app.get('/read', async (req, res) => {
     const users = await userModel.find();
     res.render("read", { users });
   } catch (err) {
-    console.log(err);
+    console.log("READ ERROR:", err);
     res.send("Error fetching users");
   }
 });
 
-// Create user (DEBUG ADDED 🔥)
+// Create user
 app.post('/create', async (req, res) => {
-  console.log("FORM DATA:", req.body); // 👈 IMPORTANT DEBUG
+  console.log("FORM DATA:", req.body);
 
   try {
     const { name, email, image } = req.body;
 
-    // Check if empty
     if (!name || !email) {
       return res.send("Name and Email are required");
     }
 
-    await userModel.create({ name, email, image });
+    const newUser = await userModel.create({
+      name,
+      email,
+      image
+    });
+
+    console.log("USER CREATED:", newUser);
 
     res.redirect('/read');
+
   } catch (err) {
     console.log("CREATE ERROR:", err);
     res.send("Error creating user");
@@ -56,7 +74,7 @@ app.get('/delete/:id', async (req, res) => {
     await userModel.findByIdAndDelete(req.params.id);
     res.redirect('/read');
   } catch (err) {
-    console.log(err);
+    console.log("DELETE ERROR:", err);
     res.send("Error deleting user");
   }
 });
@@ -67,7 +85,7 @@ app.get('/edit/:userid', async (req, res) => {
     const user = await userModel.findById(req.params.userid);
     res.render("edit", { user });
   } catch (err) {
-    console.log(err);
+    console.log("EDIT ERROR:", err);
     res.send("Error loading edit page");
   }
 });
@@ -84,8 +102,9 @@ app.post('/update/:userid', async (req, res) => {
     );
 
     res.redirect('/read');
+
   } catch (err) {
-    console.log(err);
+    console.log("UPDATE ERROR:", err);
     res.send("Error updating user");
   }
 });
@@ -94,5 +113,5 @@ app.post('/update/:userid', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
