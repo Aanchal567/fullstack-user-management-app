@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 // MongoDB Atlas connection
 mongoose.connect("mongodb+srv://aanchal:123@cluster0.deaqzkf.mongodb.net/testapp1")
   .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log("Mongo Error:", err));
-
+  .catch(err => console.log(err));
 // Schema
 const userSchema = new mongoose.Schema({
   name: String,
