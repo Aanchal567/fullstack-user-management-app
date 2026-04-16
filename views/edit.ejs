@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit User</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex items-center justify-center">
+
+  <!-- CARD -->
+  <div class="bg-zinc-900 p-10 rounded-2xl shadow-2xl w-full max-w-md border border-zinc-800">
+
+    <!-- TITLE -->
+    <h1 class="text-3xl font-bold mb-6 text-center">Edit User</h1>
+
+    <!-- FORM -->
+    <form action="/update/<%= user._id %>" method="post" class="space-y-5">
+
+      <!-- NAME -->
+      <div>
+        <label class="text-sm text-zinc-400">Full Name</label>
+        <input 
+          type="text" 
+          name="name"
+          value="<%= user.name %>"
+          class="w-full mt-1 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          required
+        />
+      </div>
+
+      <!-- EMAIL -->
+      <div>
+        <label class="text-sm text-zinc-400">Email</label>
+        <input 
+          type="email" 
+          name="email"
+          value="<%= user.email %>"
+          class="w-full mt-1 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          required
+        />
+      </div>
+
+      <!-- IMAGE -->
+      <div>
+        <label class="text-sm text-zinc-400">Image URL</label>
+        <input 
+          type="text" 
+          name="image"
+          value="<%= user.image %>"
+          class="w-full mt-1 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+        />
+      </div>
+
+      <!-- IMAGE PREVIEW -->
+      <div class="flex justify-center mt-4">
+        <img 
+          src="<%= user.image %>" 
+          alt="User Image"
+          class="w-24 h-24 rounded-full object-cover border-2 border-zinc-700"
+        />
+      </div>
+
+      <!-- BUTTON -->
+      <button 
+        type="submit"
+        class="w-full bg-yellow-500 py-2 rounded-lg hover:bg-yellow-600 transition shadow-md">
+        Update User
+      </button>
+
+    </form>
+
+    <!-- BACK -->
+    <div class="text-center mt-5">
+      <a href="/read" class="text-blue-400 text-sm hover:underline">
+        ← Back to Users
+      </a>
+    </div>
+
+  </div>
+
+</body>
+</html>

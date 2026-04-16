@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Users Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-zinc-950 text-white min-h-screen">
+
+  <!-- NAVBAR -->
+  <div class="flex justify-between items-center px-10 py-6 border-b border-zinc-800">
+    <h1 class="text-2xl font-semibold tracking-wide">User Dashboard</h1>
+
+    <a href="/" 
+       class="bg-blue-600 px-5 py-2 rounded-lg text-sm hover:bg-blue-700 transition shadow-md">
+      + Add User
+    </a>
+  </div>
+
+  <!-- MAIN -->
+  <div class="p-10">
+
+    <!-- TITLE -->
+    <h2 class="text-3xl font-bold mb-8">All Users</h2>
+
+    <!-- GRID -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <% users.forEach(function(user){ %>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition duration-300">
+
+          <!-- IMAGE -->
+          <div class="flex justify-center mb-5">
+            <img 
+              src="<%= user.image %>" 
+              alt="User Image"
+              class="w-24 h-24 rounded-full object-cover border-2 border-zinc-700"
+            />
+          </div>
+
+          <!-- INFO -->
+          <div class="text-center space-y-1">
+            <h3 class="text-lg font-semibold"><%= user.name %></h3>
+            <p class="text-sm text-zinc-400"><%= user.email %></p>
+          </div>
+
+          <!-- ACTIONS -->
+          <div class="flex justify-center gap-3 mt-6">
+
+            <a href="/edit/<%= user._id %>" 
+               class="px-4 py-1 text-sm bg-yellow-500/90 rounded-md hover:bg-yellow-500 transition">
+              Edit
+            </a>
+
+            <a href="/delete/<%= user._id %>" 
+               class="px-4 py-1 text-sm bg-red-500/90 rounded-md hover:bg-red-500 transition">
+              Delete
+            </a>
+
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
